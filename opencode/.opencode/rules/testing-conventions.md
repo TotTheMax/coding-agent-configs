@@ -1,0 +1,11 @@
+All tests must:
+- Use descriptive test names that explain the expected behavior
+- Follow the pattern: "should [expected behavior] when [condition]"
+- Group related tests in describe blocks by feature or module
+- Include both positive and negative test cases
+- Use beforeEach/afterEach for setup and cleanup, not manual setup in each test
+- Assert specific values, not just "not undefined" or "not null"
+- Avoid testing implementation details — test behavior and outputs
+- Mock external dependencies, not internal modules
+- Keep tests independent — no test should depend on another test's state
+- Clean up all temporary files and env vars in afterEach

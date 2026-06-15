@@ -7,5 +7,16 @@
       "apiKey": "env:ANTHROPIC_API_KEY"
     }
   },
-  "mcpServers": {}
+  "mcp": {
+    "filesystem": {
+      "type": "local",
+      "enabled": true,
+      "command": ["npx", "-y", "@modelcontextprotocol/server-filesystem", "/tmp/project"]
+    },
+    "fetch": {
+      "type": "local",
+      "enabled": true,
+      "command": ["npx", "-y", "@modelcontextprotocol/server-fetch"]
+    }
+  }
 }

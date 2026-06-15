@@ -1,0 +1,13 @@
+Git conventions for this project:
+- Commit messages must follow conventional commits format: `type(scope): description`
+- Types: feat, fix, docs, style, refactor, test, chore
+- Scope is optional but recommended for multi-module projects
+- Description must be concise and use imperative mood (e.g., "add feature" not "added feature")
+- Branch naming: use `type/description` (e.g., `feat/add-auth`, `fix/shell-detection`)
+- PR titles must match commit message format
+- PR descriptions must include:
+  - What changed and why
+  - How to test the changes
+  - Any breaking changes or migration steps
+- Keep PRs small and focused — one logical change per PR
+- Squash commits on merge unless individual commits are meaningful
