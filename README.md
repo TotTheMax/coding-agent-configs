@@ -6,14 +6,40 @@ Team-shared configuration repository for coding agents.
 
 ```
 ├── opencode/                  # opencode agent configuration
-│   ├── opencode.json          # opencode main config file
-│   ├── .opencode/             # opencode specific directory
-│   │   └── rules/             # coding rules for opencode
-│   │       └── code-style.md
-├── trae/                      # future: trae cli configuration
-│   └── ...
+│   ├── opencode.json          # opencode main config (model, provider, mcp)
+│   └── rules/                 # coding rules (flat structure for OPENCODE_CONFIG_DIR)
+│       ├── code-style.md
+│       ├── testing-conventions.md
+│       └── git-conventions.md
+├── skills/                    # shared skills (universal format, cross-agent)
+│   ├── code-review/SKILL.md
+│   └── api-design/SKILL.md
 └── README.md                  # this file
 ```
+
+## Contents
+
+### MCP Servers
+
+`opencode.json` includes MCP server configurations:
+
+- **filesystem**: Read-only access to project files via `@modelcontextprotocol/server-filesystem`
+- **fetch**: Web content fetching via `@modelcontextprotocol/server-fetch`
+
+### Skills
+
+Skills in `skills/` are in universal format with YAML frontmatter (`name`, `description`). They are installed to the config directory's `skills/` subdirectory, matching the `.opencode` format used by `OPENCODE_CONFIG_DIR`.
+
+- **code-review**: Review code for quality, security, and best practices
+- **api-design**: Design, plan, or review REST/GraphQL APIs
+
+### Rules
+
+Coding rules in `opencode/rules/` are installed to the config directory's `rules/` subdirectory:
+
+- **code-style**: Follow existing conventions, include error handling, minimal changes
+- **testing-conventions**: Descriptive test names, beforeEach/afterEach, mock external deps
+- **git-conventions**: Conventional commits format, branch naming, PR practices
 
 ## How to Use
 
@@ -32,11 +58,14 @@ Team-shared configuration repository for coding agents.
 npx @tothemax/agent-config-cli setup --repo https://github.com/tothemax/coding-agent-configs.git -a opencode
 ```
 
-### Update Team Config
+### Specify Shell Type
 
 ```bash
-npx @tothemax/agent-config-cli update --repo https://github.com/tothemax/coding-agent-configs.git -a opencode
+npx @tothemax/agent-config-cli setup --repo https://github.com/tothemax/coding-agent-configs.git -a opencode --shell zsh
+npx @tothemax/agent-config-cli setup --repo https://github.com/tothemax/coding-agent-configs.git -a opencode --shell fish
 ```
+
+If `--shell` is not specified, the CLI detects the running shell automatically. When detection is ambiguous, it writes env vars to both `.bashrc` and `.zshrc`.
 
 ### Custom Config Directory
 
@@ -44,9 +73,15 @@ npx @tothemax/agent-config-cli update --repo https://github.com/tothemax/coding-
 npx @tothemax/agent-config-cli setup --repo https://github.com/tothemax/coding-agent-configs.git -a opencode --config-dir ~/custom-dir
 ```
 
+### Update Team Config
+
+```bash
+npx @tothemax/agent-config-cli update --repo https://github.com/tothemax/coding-agent-configs.git -a opencode
+```
+
 ### Uninstall
 
-Remove the `OPENCODE_CONFIG_DIR` line from your shell profile (marked with `agent-config-cli` comments), then delete the config directory.
+Remove the `OPENCODE_CONFIG_DIR` marker block from your shell profile (marked with `# >>> agent-config-cli:opencode >>>` comments). Both `.bashrc` and `.zshrc` may contain the env var if detection was ambiguous. Then delete the config directory.
 
 ## Adding a New Agent
 
@@ -57,5 +92,7 @@ Remove the `OPENCODE_CONFIG_DIR` line from your shell profile (marked with `agen
 ## Notes
 
 - Each agent's config is maintained in its own directory
+- Skills are in `skills/` at repo root (universal format, shared across agents)
+- The installed config directory follows `.opencode` format: `rules/` and `skills/` at top level
 - The config repo URL is provided by the user at setup time
 - opencode uses `OPENCODE_CONFIG_DIR` env var to avoid overwriting personal config
