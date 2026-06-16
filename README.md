@@ -1,6 +1,8 @@
 # Coding Agent Configs
 
-Team-shared configuration repository for coding agents.
+Example team-shared configuration repository for coding agents.
+
+**Repository**: https://github.com/TotTheMax/coding-agent-configs
 
 ## Directory Structure
 
@@ -43,26 +45,25 @@ Coding rules in `opencode/rules/` are installed to the config directory's `rules
 
 ## How to Use
 
-### Install Team Config (via Skill)
-
-1. Install the skill:
-   ```bash
-   npx skills add <skill-gitlab-url>
-   ```
-
-2. Invoke the skill in opencode and provide your team's config repo URL.
-
-### Install Team Config (via CLI directly)
+### Install via opencode skill (recommended)
 
 ```bash
-npx @tothemax/agent-config-cli setup --repo https://github.com/tothemax/coding-agent-configs.git -a opencode
+npx skills add https://github.com/TotTheMax/agent-config-cli.git
+```
+
+Then invoke the `setup-team-config` skill in opencode and provide your team's config repo URL.
+
+### Install via CLI directly
+
+```bash
+npx @tothemax/agent-config-cli setup --repo https://github.com/TotTheMax/coding-agent-configs.git -a opencode
 ```
 
 ### Specify Shell Type
 
 ```bash
-npx @tothemax/agent-config-cli setup --repo https://github.com/tothemax/coding-agent-configs.git -a opencode --shell zsh
-npx @tothemax/agent-config-cli setup --repo https://github.com/tothemax/coding-agent-configs.git -a opencode --shell fish
+npx @tothemax/agent-config-cli setup --repo https://github.com/TotTheMax/coding-agent-configs.git -a opencode --shell zsh
+npx @tothemax/agent-config-cli setup --repo https://github.com/TotTheMax/coding-agent-configs.git -a opencode --shell fish
 ```
 
 If `--shell` is not specified, the CLI detects the running shell automatically. When detection is ambiguous, it writes env vars to both `.bashrc` and `.zshrc`.
@@ -70,13 +71,13 @@ If `--shell` is not specified, the CLI detects the running shell automatically. 
 ### Custom Config Directory
 
 ```bash
-npx @tothemax/agent-config-cli setup --repo https://github.com/tothemax/coding-agent-configs.git -a opencode --config-dir ~/custom-dir
+npx @tothemax/agent-config-cli setup --repo https://github.com/TotTheMax/coding-agent-configs.git -a opencode --config-dir ~/custom-dir
 ```
 
 ### Update Team Config
 
 ```bash
-npx @tothemax/agent-config-cli update --repo https://github.com/tothemax/coding-agent-configs.git -a opencode
+npx @tothemax/agent-config-cli update --repo https://github.com/TotTheMax/coding-agent-configs.git -a opencode
 ```
 
 ### Uninstall
@@ -86,7 +87,7 @@ Remove the `OPENCODE_CONFIG_DIR` marker block from your shell profile (marked wi
 ## Adding a New Agent
 
 1. Create a `<agent-name>/` directory in this repo following the agent's config structure
-2. Implement an `Agent` class in `agent-config-cli` (see `packages/agent-config-cli/src/agents/`)
+2. Implement an `Agent` class in `agent-config-cli` (see [agent-config-cli repo](https://github.com/TotTheMax/agent-config-cli))
 3. Register it in the CLI's agent registry
 
 ## Notes
@@ -94,5 +95,5 @@ Remove the `OPENCODE_CONFIG_DIR` marker block from your shell profile (marked wi
 - Each agent's config is maintained in its own directory
 - Skills are in `skills/` at repo root (universal format, shared across agents)
 - The installed config directory follows `.opencode` format: `rules/` and `skills/` at top level
-- The config repo URL is provided by the user at setup time
 - opencode uses `OPENCODE_CONFIG_DIR` env var to avoid overwriting personal config
+- CLI source code: https://github.com/TotTheMax/agent-config-cli
